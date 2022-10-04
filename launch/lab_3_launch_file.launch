@@ -1,0 +1,8 @@
+<launch>
+    <arg name="use_old_file" default="false" />
+    <include file="$(find lab2)/launch/display.launch">
+        <arg if="$(arg use_old_file)" name="file" value="$(find lab2)/urdf/robot.xacro" />
+        <arg unless="$(arg use_old_file)" name="file" value="$(find lab3)/urdf/robot_more.xacro" />
+        <arg name="use_xacro" default="true"/>
+    </include>
+</launch>
