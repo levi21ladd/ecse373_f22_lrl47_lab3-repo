@@ -1,0 +1,15 @@
+<launch>
+    <arg name="bag_type" default="glennan_5_complete-002.bag"/>
+
+    <arg name="use_old_file" default="false" />
+    <include file="$(find lab3)/src/lab2/launch/display.launch">
+        <arg name="use_xacro" default="true" />
+        <arg if="$(arg use_old_file)" name="file" value="$(find lab3)/src/lab2/urdf/robot.xacro" />
+        <arg unless="$(arg use_old_file)" name="file" value="$(find lab3)/urdf/robot_more.xacro" />
+        <arg name="use_clock" default="false" />
+        <arg name="rviz_cfg" value="lab3_config_LaserScans.rviz" />
+    </include>
+    <node pkg="rosbag" type="play" name="bag_player" args="--clock $(find lab3)/src/bags/$(arg bag_type)">
+        <remap from="/tf_trajectory" to="/tf"/>
+    </node>
+</launch>

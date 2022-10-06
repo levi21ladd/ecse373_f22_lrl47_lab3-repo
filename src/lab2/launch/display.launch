@@ -2,13 +2,16 @@
     <arg name="use_xacro" default="false" />
     <arg name="launch_gui" default="true" />
     <arg name="use_robot_state_publisher" default="true" />
+    <arg name="use_clock" default="false" />
+    <arg name="rviz_cfg" default="lab3_config_LaserScans.rviz" />
     <arg if="$(arg use_xacro)" name="filename" default="robot.xacro" />
     <arg unless="$(arg use_xacro)" name="filename" default="urdf_from_xacro.urdf" />
-    <arg name="file" default="$(find lab2)/urdf/$(arg filename)"  />
+    <arg name="file" default="$(find lab3)/src/lab2/urdf/$(arg filename)"  />
     <param if="$(arg use_xacro)" name="robot_description" command="$(find xacro)/xacro $(arg file)" />
     <param unless="$(arg use_xacro)" name="robot_description" textfile="$(arg file)" />
     <node if="$(arg launch_gui)" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" name="joint_state_publisher_gui" />
     <node unless="$(arg launch_gui)" pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" />
     <node if="$(arg use_robot_state_publisher)" pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find lab2)/config/config.rviz" required="true" />
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find lab3)/config/$(arg rviz_cfg)" required="true" />
+    <param if="$(arg use_clock)" name="use_clock" command="rosparam set /use_sim_time true" />
 </launch>
